@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import com.chernorotov.gb06_popular_library_git_client.data.FakeUserRepository
 import com.chernorotov.gb06_popular_library_git_client.data.api.GithubApiService
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
-import com.chernorotov.gb06_popular_library_git_client.ui.users.UsersPresenter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -19,11 +18,8 @@ class App: Application() {
         .create(GithubApiService::class.java)
 
     // TODO(use di to create a repository)
-    private val userRepository: IUserRepository = //GithubUserRepository(githubApiService)
+    val userRepository: IUserRepository = //GithubUserRepository(githubApiService)
                                                   FakeUserRepository()
-
-    // TODO(use di to create a presenter)
-    val usersPresenter = UsersPresenter(userRepository)
 
 }
 
