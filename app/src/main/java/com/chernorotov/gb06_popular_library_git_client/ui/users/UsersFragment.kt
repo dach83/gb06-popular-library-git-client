@@ -24,7 +24,7 @@ class UsersFragment : Fragment(R.layout.fragment_users), UsersContract.View {
         setupRefreshButton()
         presenter.attach(this)
         if (savedInstanceState == null) {
-            presenter.refreshScreen() // uploading data only for the first time
+            presenter.onRefresh() // uploading data only for the first time
         }
     }
 
@@ -41,12 +41,12 @@ class UsersFragment : Fragment(R.layout.fragment_users), UsersContract.View {
 
     private fun setupRefreshButton() =
         binding.errorScreen.refreshButton.setOnClickListener {
-            presenter.refreshScreen()
+            presenter.onRefresh()
         }
 
     private fun setupUserSwipeRefresh() =
         binding.usersSwipeRefresh.setOnRefreshListener {
-            presenter.refreshScreen()
+            presenter.onRefresh()
         }
 
     private fun setupUserRecyclerView() {
