@@ -14,9 +14,10 @@ class App: Application() {
         .baseUrl("https://api.github.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(GithubApiService::class.java);
+        .create(GithubApiService::class.java)
 
     val userRepository: IUserRepository = GithubUserRepository(githubApiService)
+                                          //FakeUserRepository()
 
 }
 

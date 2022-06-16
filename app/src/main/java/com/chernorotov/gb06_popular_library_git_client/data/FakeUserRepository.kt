@@ -1,12 +1,10 @@
 package com.chernorotov.gb06_popular_library_git_client.data
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import android.os.Handler
+import android.os.Looper
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
+import kotlin.random.Random
 
 class FakeUserRepository : IUserRepository {
 
@@ -20,15 +18,20 @@ class FakeUserRepository : IUserRepository {
         User(7, "evanphx", "https://avatars.githubusercontent.com/u/7?v=4"),
     )
 
-    private suspend fun userLoader(sinceId: Int, pageSize: Int): List<User> {
-        delay(3000)
-        return fakeUsers
+    override fun getUsers(onSuccess: (List<User>) -> Unit, onError: (error: Throwable) -> Unit) {
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                if (Random.nextBoolean()) {
+                    onSuccess(fakeUsers)
+                } else {
+                    onError(IllegalStateException("Something went wrong!"))
+                }
+            }, DATA_LOADING_DELAY
+        )
     }
 
-    override fun getUsers(): Flow<PagingData<User>> = Pager(
-        config = PagingConfig(pageSize = 20, enablePlaceholders = true)
-    ) {
-        UserPagingSource(::userLoader)
-    }.flow
+    companion object {
+        const val DATA_LOADING_DELAY = 2_000L
+    }
 
 }
