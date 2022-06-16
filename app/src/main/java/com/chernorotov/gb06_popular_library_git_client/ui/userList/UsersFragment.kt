@@ -1,4 +1,4 @@
-package com.chernorotov.gb06_popular_library_git_client.ui.users
+package com.chernorotov.gb06_popular_library_git_client.ui.userList
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,7 @@ class UsersFragment : Fragment(R.layout.fragment_users), UsersContract.View {
 
     private val binding: FragmentUsersBinding by viewBinding()
     private var adapter = UsersAdapter()
-    private val presenter by lazy { UsersPresenter(app.userRepository) }
+    private val presenter by lazy { app.usersPresenter }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

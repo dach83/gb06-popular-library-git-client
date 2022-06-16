@@ -1,4 +1,4 @@
-package com.chernorotov.gb06_popular_library_git_client.ui.users
+package com.chernorotov.gb06_popular_library_git_client.ui.userList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
