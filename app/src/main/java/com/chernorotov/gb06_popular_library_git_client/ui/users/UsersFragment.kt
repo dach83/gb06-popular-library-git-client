@@ -1,5 +1,7 @@
-package com.chernorotov.gb06_popular_library_git_client.ui.userList
+package com.chernorotov.gb06_popular_library_git_client.ui.users
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -13,7 +15,7 @@ import com.chernorotov.gb06_popular_library_git_client.domain.model.User
 class UsersFragment : Fragment(R.layout.fragment_users), UsersContract.View {
 
     private val binding: FragmentUsersBinding by viewBinding()
-    private var adapter = UsersAdapter()
+    private var adapter = UsersAdapter(::showUserPageInBrowser)
     private val presenter by lazy { app.usersPresenter }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,5 +70,10 @@ class UsersFragment : Fragment(R.layout.fragment_users), UsersContract.View {
     override fun showLoading() {
         binding.usersSwipeRefresh.isRefreshing = true
     }
+
+    private fun showUserPageInBrowser(user: User) =
+        Intent(Intent.ACTION_VIEW, Uri.parse(user.githubUrl)).also {
+            startActivity(it)
+        }
 
 }

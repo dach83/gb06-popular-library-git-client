@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import com.chernorotov.gb06_popular_library_git_client.data.FakeUserRepository
 import com.chernorotov.gb06_popular_library_git_client.data.api.GithubApiService
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
-import com.chernorotov.gb06_popular_library_git_client.ui.userList.UsersPresenter
+import com.chernorotov.gb06_popular_library_git_client.ui.users.UsersPresenter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
