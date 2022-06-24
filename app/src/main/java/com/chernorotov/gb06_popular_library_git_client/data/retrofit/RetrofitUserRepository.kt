@@ -1,6 +1,7 @@
 package com.chernorotov.gb06_popular_library_git_client.data.retrofit
 
 import com.chernorotov.gb06_popular_library_git_client.data.retrofit.mappers.UserDtoMapper
+import com.chernorotov.gb06_popular_library_git_client.data.room.mappers.UserEntityMapper
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
 import io.reactivex.rxjava3.core.Single
