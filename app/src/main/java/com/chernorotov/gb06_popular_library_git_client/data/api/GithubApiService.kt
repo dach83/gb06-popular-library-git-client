@@ -3,9 +3,15 @@ package com.chernorotov.gb06_popular_library_git_client.data.api
 import com.chernorotov.gb06_popular_library_git_client.data.api.model.UserDto
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GithubApiService {
+
+    @GET("user/{id}")
+    fun getUser(
+        @Path("id") userId: Int
+    ): Call<UserDto>
 
     @GET("users")
     fun getUsers(

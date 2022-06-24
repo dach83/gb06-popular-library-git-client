@@ -9,14 +9,26 @@ import kotlin.random.Random
 class FakeUserRepository : IUserRepository {
 
     private val fakeUsers = listOf(
-        User(1, "mojombo"),
-        User(2, "defunkt"),
-        User(3, "pjhyett"),
-        User(4, "wycats"),
-        User(5, "ezmobius"),
-        User(6, "ivey"),
-        User(7, "evanphx"),
+        User(1, "mojombo", "https://avatars.githubusercontent.com/u/1?v=4"),
+        User(2, "defunkt", "https://avatars.githubusercontent.com/u/2?v=4"),
+        User(3, "pjhyett", "https://avatars.githubusercontent.com/u/3?v=4"),
+        User(4, "wycats", "https://avatars.githubusercontent.com/u/4?v=4"),
+        User(5, "ezmobius", "https://avatars.githubusercontent.com/u/5?v=4"),
+        User(6, "ivey", "https://avatars.githubusercontent.com/u/6?v=4"),
+        User(7, "evanphx", "https://avatars.githubusercontent.com/u/7?v=4"),
     )
+
+    override fun getUser(
+        userId: Int,
+        onSuccess: (User) -> Unit,
+        onError: (error: Throwable) -> Unit
+    ) =
+        try {
+            val user = fakeUsers.first { it.id == userId }
+            onSuccess(user)
+        } catch (error: Exception) {
+            onError(error)
+        }
 
     override fun getUsers(onSuccess: (List<User>) -> Unit, onError: (error: Throwable) -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(

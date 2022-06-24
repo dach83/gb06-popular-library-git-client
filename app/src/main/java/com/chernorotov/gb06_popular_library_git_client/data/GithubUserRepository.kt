@@ -14,9 +14,32 @@ class GithubUserRepository(
     private val userDtoMapper: UserDtoMapper = UserDtoMapper()
 ) : IUserRepository {
 
+    override fun getUser(
+        userId: Int,
+        onSuccess: (User) -> Unit,
+        onError: (error: Throwable) -> Unit
+    ) {
+        apiService.getUser(userId).enqueue(object : Callback<UserDto> {
+            override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {
+                if (response.isSuccessful) {
+                    val userDto = response.body()
+                    if (userDto != null) {
+                        onSuccess(userDtoMapper.mapToDomain(userDto))
+                        return
+                    }
+                }
+
+                onError(IllegalStateException("User not found"))
+            }
+
+            override fun onFailure(call: Call<UserDto>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+
     override fun getUsers(onSuccess: (List<User>) -> Unit, onError: (error: Throwable) -> Unit) {
         apiService.getUsers().enqueue(object : Callback<List<UserDto>> {
-
             override fun onResponse(call: Call<List<UserDto>>, response: Response<List<UserDto>>) {
                 if (response.isSuccessful) {
                     val users = response.body()?.map { userDtoMapper.mapToDomain(it) } ?: emptyList()
@@ -29,7 +52,6 @@ class GithubUserRepository(
             override fun onFailure(call: Call<List<UserDto>>, t: Throwable) {
                 onError(t)
             }
-
         })
     }
 

@@ -8,5 +8,6 @@ class UserDtoMapper : DtoMapper<UserDto, User> {
     override fun mapToDomain(dtoEntity: UserDto) = User(
         dtoEntity.id,
         dtoEntity.login,
+        dtoEntity.avatarUrl.orEmpty(),
     )
 }
