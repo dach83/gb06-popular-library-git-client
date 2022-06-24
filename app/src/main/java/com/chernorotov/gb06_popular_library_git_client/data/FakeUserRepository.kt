@@ -1,10 +1,8 @@
 package com.chernorotov.gb06_popular_library_git_client.data
 
-import android.os.Handler
-import android.os.Looper
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
-import kotlin.random.Random
+import io.reactivex.rxjava3.core.Single
 
 class FakeUserRepository : IUserRepository {
 
@@ -18,32 +16,10 @@ class FakeUserRepository : IUserRepository {
         User(7, "evanphx", "https://avatars.githubusercontent.com/u/7?v=4"),
     )
 
-    override fun getUser(
-        userId: Int,
-        onSuccess: (User) -> Unit,
-        onError: (error: Throwable) -> Unit
-    ) =
-        try {
-            val user = fakeUsers.first { it.id == userId }
-            onSuccess(user)
-        } catch (error: Exception) {
-            onError(error)
-        }
+    override fun getUser(userId: Int): Single<User> =
+        Single.just(fakeUsers.first { it.id == userId })
 
-    override fun getUsers(onSuccess: (List<User>) -> Unit, onError: (error: Throwable) -> Unit) {
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
-                if (Random.nextBoolean()) {
-                    onSuccess(fakeUsers)
-                } else {
-                    onError(IllegalStateException("Something went wrong!"))
-                }
-            }, DATA_LOADING_DELAY
-        )
-    }
-
-    companion object {
-        const val DATA_LOADING_DELAY = 2_000L
-    }
+    override fun getUsers(): Single<List<User>> =
+        Single.just(fakeUsers)
 
 }

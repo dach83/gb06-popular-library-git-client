@@ -13,6 +13,7 @@ import com.chernorotov.gb06_popular_library_git_client.databinding.FragmentUserD
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
 import com.chernorotov.gb06_popular_library_git_client.ui.ViewModelFactory
 import com.chernorotov.gb06_popular_library_git_client.ui.ViewState
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
 
@@ -24,21 +25,29 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
         )[UserDetailsViewModel::class.java]
     }
 
+    private val disposable = CompositeDisposable()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requestUserDetails()
         observeViewState()
+        if (savedInstanceState == null) {
+            requestUserDetails()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposable.dispose()
+    }
+
+    private fun observeViewState() {
+        disposable.add(viewModel.viewState.subscribe { renderViewState(it) })
     }
 
     private fun requestUserDetails() {
         val userId = requireArguments().getInt(KEY_USER_ID)
         viewModel.requestUserDetails(userId)
     }
-
-    private fun observeViewState() =
-        viewModel.viewState.observe(viewLifecycleOwner) {
-            renderViewState(it)
-        }
 
     private fun renderViewState(viewState: ViewState<User>) {
         if (viewState is ViewState.Success) {
