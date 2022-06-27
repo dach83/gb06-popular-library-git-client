@@ -1,4 +1,4 @@
-package com.chernorotov.gb06_popular_library_git_client.ui.users
+package com.chernorotov.gb06_popular_library_git_client.ui.userDetails
 
 import androidx.lifecycle.ViewModel
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
@@ -10,18 +10,14 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
-class UsersViewModel(private val userRepository: IUserRepository) : ViewModel() {
+class UserDetailsViewModel(private val repository: IUserRepository) : ViewModel() {
 
-    private val _viewState = BehaviorSubject.create<ViewState<List<User>>>()
-    val viewState: Observable<ViewState<List<User>>> get() = _viewState
+    private val _viewState = BehaviorSubject.create<ViewState<User>>()
+    val viewState: Observable<ViewState<User>> get() = _viewState
 
-    init {
-        requestUsers()
-    }
-
-    fun requestUsers() {
+    fun requestUserDetails(userId: Int) {
         _viewState.onNext(ViewState.Loading)
-        userRepository.getUsers()
+        repository.getUser(userId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribeBy(
@@ -29,5 +25,4 @@ class UsersViewModel(private val userRepository: IUserRepository) : ViewModel() 
                 onError = { _viewState.onNext(ViewState.Error(it)) }
             )
     }
-
 }

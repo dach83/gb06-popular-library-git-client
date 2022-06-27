@@ -1,4 +1,4 @@
-package com.chernorotov.gb06_popular_library_git_client.data.api.model
+package com.chernorotov.gb06_popular_library_git_client.data.retrofit.model
 
 import com.google.gson.annotations.SerializedName
 
