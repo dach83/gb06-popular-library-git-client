@@ -9,4 +9,10 @@ class UserEntityMapper : EntityMapper<UserEntity, User> {
         entity.login,
         entity.avatarUrl
     )
+
+    override fun mapToEntity(domain: User) = UserEntity(
+        domain.id,
+        domain.login,
+        domain.avatarUrl
+    )
 }

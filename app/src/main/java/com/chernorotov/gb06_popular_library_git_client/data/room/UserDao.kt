@@ -14,7 +14,7 @@ interface UserDao {
     fun getUsers(): Single<List<UserEntity>>
 
     @Query("SELECT * FROM users WHERE id = :userId")
-    fun findById(userId: Int): Single<UserEntity>
+    fun getUser(userId: Int): Single<UserEntity>
 
     @Insert(onConflict = REPLACE)
     fun insert(users: List<UserEntity>)
