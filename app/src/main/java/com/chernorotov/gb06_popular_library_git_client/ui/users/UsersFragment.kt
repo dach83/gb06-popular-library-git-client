@@ -2,7 +2,6 @@ package com.chernorotov.gb06_popular_library_git_client.ui.users
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -14,7 +13,9 @@ import com.chernorotov.gb06_popular_library_git_client.databinding.FragmentUsers
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
 import com.chernorotov.gb06_popular_library_git_client.ui.ViewModelFactory
 import com.chernorotov.gb06_popular_library_git_client.ui.ViewState
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class UsersFragment : Fragment(R.layout.fragment_users) {
 
@@ -49,10 +50,11 @@ class UsersFragment : Fragment(R.layout.fragment_users) {
         disposable.add(viewModel.viewState.subscribe { renderViewState(it) })
     }
 
-    private fun setupRefreshButton() =
-        binding.errorScreen.refreshButton.setOnClickListener {
-            viewModel.requestUsers()
-        }
+    private fun setupRefreshButton() = binding.errorScreen.refreshButton.clicks
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeBy(
+            onNext = { viewModel.requestUsers() }
+        )
 
     private fun setupUserSwipeRefresh() =
         binding.usersSwipeRefresh.setOnRefreshListener {

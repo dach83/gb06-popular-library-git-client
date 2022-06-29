@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.chernorotov.gb06_popular_library_git_client.data.CachedUserRepository
+import com.chernorotov.gb06_popular_library_git_client.data.FakeUserRepository
 import com.chernorotov.gb06_popular_library_git_client.data.retrofit.GithubApiService
 import com.chernorotov.gb06_popular_library_git_client.data.retrofit.RetrofitUserRepository
 import com.chernorotov.gb06_popular_library_git_client.data.room.RoomUserRepository
@@ -35,6 +36,8 @@ class App : Application() {
 
         val retrofitUserRepository = RetrofitUserRepository(gitApi)
         val roomUserRepository = RoomUserRepository(userDb.userDao())
+
+//        userRepository = FakeUserRepository()
 
         userRepository = CachedUserRepository(
             retrofitUserRepository,
