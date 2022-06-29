@@ -4,6 +4,7 @@ import com.chernorotov.gb06_popular_library_git_client.data.retrofit.mappers.Use
 import com.chernorotov.gb06_popular_library_git_client.data.room.mappers.UserEntityMapper
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 
 class RetrofitUserRepository(
@@ -11,15 +12,15 @@ class RetrofitUserRepository(
     private val userDtoMapper: UserDtoMapper = UserDtoMapper()
 ) : IUserRepository {
 
-    override fun getUser(userId: Int): Single<User> =
+    override fun getUser(userId: Int): Flowable<User> =
         apiService.getUser(userId).map {
             userDtoMapper.mapToDomain(it)
-        }
+        }.toFlowable()
 
 
-    override fun getUsers(): Single<List<User>> = apiService.getUsers().map { usersDto ->
+    override fun getUsers(): Flowable<List<User>> = apiService.getUsers().map { usersDto ->
         usersDto.map {
             userDtoMapper.mapToDomain(it)
         }
-    }
+    }.toFlowable()
 }
