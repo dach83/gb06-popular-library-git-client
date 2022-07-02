@@ -8,6 +8,8 @@ import com.chernorotov.gb06_popular_library_git_client.data.room.RoomUserReposit
 import com.chernorotov.gb06_popular_library_git_client.data.room.UserDao
 import com.chernorotov.gb06_popular_library_git_client.data.room.UserDatabase
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -30,9 +32,18 @@ val dataModule = module {
         get<UserDatabase>().userDao()
     }
 
+    single<OkHttpClient> {
+        OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+            .build()
+    }
+
     single<Retrofit> {
         Retrofit.Builder()
             .baseUrl(baseUrl)
+            .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()

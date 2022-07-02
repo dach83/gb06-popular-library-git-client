@@ -48,13 +48,20 @@ class UsersFragment : Fragment(R.layout.fragment_users) {
     private fun setupRefreshButton() = binding.errorScreen.refreshButton.clicks
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeBy(
-            onNext = { viewModel.requestUsers() }
+            onNext = {
+                refreshScreen()
+            }
         )
 
     private fun setupUserSwipeRefresh() =
         binding.usersSwipeRefresh.setOnRefreshListener {
-            viewModel.requestUsers()
+            refreshScreen()
         }
+
+    private fun refreshScreen() {
+        viewModel.requestUsers()
+        adapter.notifyDataSetChanged()
+    }
 
     private fun setupUserRecyclerView() {
         binding.usersRecyclerView.adapter = adapter
