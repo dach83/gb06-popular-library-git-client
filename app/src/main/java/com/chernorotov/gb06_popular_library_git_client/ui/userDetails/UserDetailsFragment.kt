@@ -4,26 +4,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import com.chernorotov.gb06_popular_library_git_client.R
-import com.chernorotov.gb06_popular_library_git_client.app
 import com.chernorotov.gb06_popular_library_git_client.databinding.FragmentUserDetailsBinding
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
-import com.chernorotov.gb06_popular_library_git_client.ui.ViewModelFactory
 import com.chernorotov.gb06_popular_library_git_client.ui.ViewState
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
 
     private val binding: FragmentUserDetailsBinding by viewBinding()
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            ViewModelFactory(app.userRepository)
-        )[UserDetailsViewModel::class.java]
-    }
+    private val viewModel: UserDetailsViewModel by viewModel()
 
     private val disposable = CompositeDisposable()
 

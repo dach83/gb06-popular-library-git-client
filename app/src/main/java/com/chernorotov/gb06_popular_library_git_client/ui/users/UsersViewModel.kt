@@ -25,8 +25,12 @@ class UsersViewModel(private val userRepository: IUserRepository) : ViewModel() 
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribeBy(
-                onNext = { _viewState.onNext(ViewState.Success(it)) },
-                onError = { _viewState.onNext(ViewState.Error(it)) }
+                onNext = {
+                    _viewState.onNext(ViewState.Success(it))
+                },
+                onError = {
+                    _viewState.onNext(ViewState.Error(it))
+                }
             )
     }
 

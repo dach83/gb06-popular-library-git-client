@@ -4,7 +4,6 @@ import android.util.Log
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -16,7 +15,10 @@ class CachedUserRepository(
     override fun getUser(userId: Int): Flowable<User> {
         retrofitRepository.getUser(userId)
             .observeOn(Schedulers.io())
-            .subscribeBy(onNext = { roomRepository.insert(listOf(it)) })
+            .subscribeBy(
+                onNext = { roomRepository.insert(listOf(it)) },
+                onError = {}
+            )
 
         return roomRepository.getUser(userId)
     }
@@ -25,7 +27,10 @@ class CachedUserRepository(
         Log.d("@@@", "getUsers")
         retrofitRepository.getUsers()
             .observeOn(Schedulers.io())
-            .subscribeBy(onNext = roomRepository::insert)
+            .subscribeBy(
+                onNext = roomRepository::insert,
+                onError = {}
+            )
 
         return roomRepository.getUsers()
     }
