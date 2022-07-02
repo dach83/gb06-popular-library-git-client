@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.chernorotov.gb06_popular_library_git_client.R
 import com.chernorotov.gb06_popular_library_git_client.databinding.FragmentUsersBinding
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
+import com.chernorotov.gb06_popular_library_git_client.ui.INavController
 import com.chernorotov.gb06_popular_library_git_client.ui.ViewState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -19,18 +20,18 @@ class UsersFragment : Fragment(R.layout.fragment_users) {
 
     private val binding: FragmentUsersBinding by viewBinding()
     private var adapter = UsersAdapter(::onUserClick)
-    private var controller: Controller? = null
+    private var navController: INavController? = null
     private val viewModel: UsersViewModel by viewModel()
     private val disposable = CompositeDisposable()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        controller = context as? Controller
+        navController = context as? INavController
     }
 
     override fun onDetach() {
         super.onDetach()
-        controller = null
+        navController = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,11 +78,6 @@ class UsersFragment : Fragment(R.layout.fragment_users) {
     }
 
     private fun onUserClick(user: User) =
-        controller?.navigateToUserDetails(user.id)
-
-
-    interface Controller {
-        fun navigateToUserDetails(userId: Int)
-    }
+        navController?.navigateToUserDetails(user.id)
 
 }
