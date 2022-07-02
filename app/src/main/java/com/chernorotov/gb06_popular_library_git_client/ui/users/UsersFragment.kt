@@ -5,27 +5,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.chernorotov.gb06_popular_library_git_client.R
-import com.chernorotov.gb06_popular_library_git_client.app
 import com.chernorotov.gb06_popular_library_git_client.databinding.FragmentUsersBinding
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
-import com.chernorotov.gb06_popular_library_git_client.ui.ViewModelFactory
 import com.chernorotov.gb06_popular_library_git_client.ui.ViewState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UsersFragment : Fragment(R.layout.fragment_users) {
 
     private val binding: FragmentUsersBinding by viewBinding()
     private var adapter = UsersAdapter(::onUserClick)
     private var controller: Controller? = null
-    private val viewModel by lazy {
-        ViewModelProvider(this, ViewModelFactory(app.userRepository))[UsersViewModel::class.java]
-    }
-
+    private val viewModel: UsersViewModel by viewModel()
     private val disposable = CompositeDisposable()
 
     override fun onAttach(context: Context) {
