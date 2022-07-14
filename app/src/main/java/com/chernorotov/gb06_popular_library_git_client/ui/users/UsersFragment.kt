@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.chernorotov.gb06_popular_library_git_client.R
+import com.chernorotov.gb06_popular_library_git_client.appComponent
 import com.chernorotov.gb06_popular_library_git_client.databinding.FragmentUsersBinding
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
 import com.chernorotov.gb06_popular_library_git_client.ui.INavController
@@ -14,15 +15,22 @@ import com.chernorotov.gb06_popular_library_git_client.ui.ViewState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class UsersFragment : Fragment(R.layout.fragment_users) {
 
     private val binding: FragmentUsersBinding by viewBinding()
     private var adapter = UsersAdapter(::onUserClick)
     private var navController: INavController? = null
-    private val viewModel: UsersViewModel by viewModel()
     private val disposable = CompositeDisposable()
+
+    @Inject
+    lateinit var viewModel: UsersViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        appComponent.injectUsersFragment(this)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,6 +48,11 @@ class UsersFragment : Fragment(R.layout.fragment_users) {
         setupUserRecyclerView()
         setupRefreshButton()
         observeViewState()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposable.dispose()
     }
 
     private fun observeViewState() {

@@ -9,8 +9,10 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import javax.inject.Inject
 
-class UsersViewModel(private val userRepository: IUserRepository) : ViewModel() {
+class UsersViewModel @Inject constructor(private val userRepository: IUserRepository) :
+    ViewModel() {
 
     private val _viewState = BehaviorSubject.create<ViewState<List<User>>>()
     val viewState: Observable<ViewState<List<User>>> get() = _viewState

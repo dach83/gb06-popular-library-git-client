@@ -1,18 +1,24 @@
 package com.chernorotov.gb06_popular_library_git_client.di
 
+import android.content.Context
+import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
 import com.chernorotov.gb06_popular_library_git_client.ui.userDetails.UserDetailsViewModel
 import com.chernorotov.gb06_popular_library_git_client.ui.users.UsersViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
 
-val appModule = module {
+@Module
+class AppModule(private val context: Context) {
 
-    viewModel<UsersViewModel> {
-        UsersViewModel(get())
-    }
+    @Provides
+    fun provideContext(): Context = context
 
-    viewModel<UserDetailsViewModel> {
-        UserDetailsViewModel(get())
-    }
+    @Provides
+    fun provideUsersViewModel(userRepository: IUserRepository) =
+        UsersViewModel(userRepository)
+
+    @Provides
+    fun provideUserDetailsViewModel(userRepository: IUserRepository) =
+        UserDetailsViewModel(userRepository)
 
 }
