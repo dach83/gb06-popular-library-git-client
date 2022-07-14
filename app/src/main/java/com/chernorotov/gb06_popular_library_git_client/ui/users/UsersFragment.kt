@@ -42,6 +42,11 @@ class UsersFragment : Fragment(R.layout.fragment_users) {
         observeViewState()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposable.dispose()
+    }
+
     private fun observeViewState() {
         disposable.add(viewModel.viewState.subscribe { renderViewState(it) })
     }
