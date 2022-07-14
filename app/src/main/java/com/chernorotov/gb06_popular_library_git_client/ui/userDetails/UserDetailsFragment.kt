@@ -7,18 +7,26 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import com.chernorotov.gb06_popular_library_git_client.R
+import com.chernorotov.gb06_popular_library_git_client.appComponent
 import com.chernorotov.gb06_popular_library_git_client.databinding.FragmentUserDetailsBinding
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
 import com.chernorotov.gb06_popular_library_git_client.ui.ViewState
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
 
     private val binding: FragmentUserDetailsBinding by viewBinding()
-    private val viewModel: UserDetailsViewModel by viewModel()
+
+    @Inject
+    lateinit var viewModel: UserDetailsViewModel
 
     private val disposable = CompositeDisposable()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        appComponent.injectUserDetailsFragment(this)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
