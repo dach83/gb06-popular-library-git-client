@@ -10,11 +10,11 @@ import com.chernorotov.gb06_popular_library_git_client.data.room.UserDatabase
 import com.chernorotov.gb06_popular_library_git_client.domain.IUserRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.gidural.mykoin.get
+import ru.gidural.mykoin.module
 
 val dataModule = module {
 

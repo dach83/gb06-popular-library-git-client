@@ -11,7 +11,7 @@ import com.chernorotov.gb06_popular_library_git_client.databinding.FragmentUserD
 import com.chernorotov.gb06_popular_library_git_client.domain.model.User
 import com.chernorotov.gb06_popular_library_git_client.ui.ViewState
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.gidural.mykoin.viewModel
 
 class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
 
