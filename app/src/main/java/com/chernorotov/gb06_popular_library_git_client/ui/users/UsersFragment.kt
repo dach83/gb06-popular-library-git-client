@@ -14,7 +14,7 @@ import com.chernorotov.gb06_popular_library_git_client.ui.ViewState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.gidural.mykoin.viewModel
 
 class UsersFragment : Fragment(R.layout.fragment_users) {
 
@@ -40,6 +40,11 @@ class UsersFragment : Fragment(R.layout.fragment_users) {
         setupUserRecyclerView()
         setupRefreshButton()
         observeViewState()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposable.dispose()
     }
 
     private fun observeViewState() {
